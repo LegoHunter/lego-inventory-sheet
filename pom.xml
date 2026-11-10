@@ -18,7 +18,37 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>22</java.version>
     <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+    <github.organization>LegoHunter</github.organization>
+    <github.repo.url>https://github.com/${github.organization}/lego-inventory-sheet.git</github.repo.url>
   </properties>
+
+  <scm>
+    <url>${github.repo.url}</url>
+    <connection>scm:git:${github.repo.url}</connection>
+    <developerConnection>scm:git:${github.repo.url}</developerConnection>
+  </scm>
+
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub Packages</name>
+      <url>https://maven.pkg.github.com/${github.organization}/lego-inventory-sheet</url>
+    </repository>
+  </distributionManagement>
+
+  <repositories>
+    <repository>
+      <id>central</id>
+      <url>https://repo1.maven.org/maven2</url>
+    </repository>
+    <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/${github.organization}/*</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
 
   <dependencies>
     <dependency>
@@ -87,6 +117,13 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <release>${java.version}</release>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
+            </path>
+          </annotationProcessorPaths>
         </configuration>
       </plugin>
       <plugin>
