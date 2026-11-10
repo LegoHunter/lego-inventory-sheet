@@ -1,0 +1,30 @@
+name: Build Test Deploy
+
+# Thin caller for the shared LCMS Maven library pipeline (HOMELAB-26 E2):
+#   LegoHunter/lego-server-configuration/.github/workflows/maven-library-pipeline.yml
+# What runs on each event is documented there and in new-service-repo/README.md ("Library standard").
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+      - develop
+  pull_request:
+    branches:
+      - develop
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  pipeline:
+    uses: LegoHunter/lego-server-configuration/.github/workflows/maven-library-pipeline.yml@develop
+    with:
+      # Exception to the Java 21 standard: stays on 22 (its pom's java.version) until a later ticket moves it.
+      # Joined the shared pipeline when the repo moved to LegoHunter (HOMELAB-68).
+      java-version: '22'
